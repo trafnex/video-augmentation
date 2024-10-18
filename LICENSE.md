@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2024, August Carlson, David Hasselquist, Ethan Witwer, Niklas Johansson, Niklas Carlsson
+Copyright (c) 2024, August Carlson, David Hasselquist, Ethan Witwer, Niklas Johansson, Niklas Carlsson, Tobias Pulls
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
