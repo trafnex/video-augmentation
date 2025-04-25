@@ -405,16 +405,26 @@ def log2packets(log, length):
     s = log.split("\n")
     interval = 1000*1000*1000*MAXIMUM_LOAD_TIME/MAX_MATRIX_LEN
     current_interval_max = interval
+
+    last_index = len(s) - 1
+    last_time = None
+    while last_time == None:
+        try:
+            last_time = float(s[last_index].split(",")[0])
+        except:
+            last_index -= 1
+            last_time = None
+    
     for line in s:
         parts = line.split(",")
         if len(parts) < 3:
             break
 
         size = float(parts[2])
-        if size < args["min"]:
+        if size < args["min"] or float(parts[0]) < last_time - 1000*1000*1000*MAXIMUM_LOAD_TIME:
             continue
 
-        while float(parts[0]) > current_interval_max:
+        while float(parts[0]) - (last_time - 1000*1000*1000*MAXIMUM_LOAD_TIME) > current_interval_max:
             current_interval_max += interval
             n += 1
 
@@ -442,13 +452,23 @@ def log2tiktok(log, length):
         return float(f"{seconds:.4f}")
 
     s = log.split("\n")
+
+    last_index = len(s) - 1
+    last_time = None
+    while last_time == None:
+        try:
+            last_time = float(s[last_index].split(",")[0])
+        except:
+            last_index -= 1
+            last_time = None
+    
     for line in s:
         parts = line.split(",")
         if len(parts) < 3:
             break
 
         size = float(parts[2])
-        if size < args["min"]:
+        if size < args["min"] or float(parts[0]) < last_time - 1000*1000*1000*MAXIMUM_LOAD_TIME:
             continue
 
         # sent is positive
@@ -472,13 +492,23 @@ def log2constants(log, length):
     n = 0
 
     s = log.split("\n")
+
+    last_index = len(s) - 1
+    last_time = None
+    while last_time == None:
+        try:
+            last_time = float(s[last_index].split(",")[0])
+        except:
+            last_index -= 1
+            last_time = None
+    
     for line in s:
         parts = line.split(",")
         if len(parts) < 3:
             break
 
         size = float(parts[2])
-        if size < args["min"]:
+        if size < args["min"] or float(parts[0]) < last_time - 1000*1000*1000*MAXIMUM_LOAD_TIME:
             continue
 
         # sent is positive

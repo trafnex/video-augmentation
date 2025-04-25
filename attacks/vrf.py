@@ -334,6 +334,16 @@ def metrics(threshold, predictions, labels):
 def log2tam(log):
     feature = [[0 for _ in range(MAX_MATRIX_LEN)], [0 for _ in range(MAX_MATRIX_LEN)]]
     s = log.split("\n")
+
+    last_index = len(s) - 1
+    last_time = None
+    while last_time == None:
+        try:
+            last_time = float(s[last_index].split(",")[0])/float(1*1000*1000*1000)
+        except:
+            last_index -= 1
+            last_time = None
+
     for line in s:
         parts = line.split(",")
         if len(parts) < 3:
@@ -344,7 +354,8 @@ def log2tam(log):
         time = float(parts[0])/float(1*1000*1000*1000)
         floc = 0 if "s" in parts[1] else 1 if "r" in parts[1] else -1
 
-        if floc > -1:
+        if floc > -1 and time >= last_time - MAX_LOAD_TIME:
+            time -= last_time - MAX_LOAD_TIME
             if time >= MAX_LOAD_TIME:
                 feature[floc][-1] += size
             else:
